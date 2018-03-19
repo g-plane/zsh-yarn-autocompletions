@@ -15,24 +15,39 @@ struct Pkg {
     devDependencies: Option<HashMap<String, String>>
 }
 
-fn print_installed_packages() {
-    let file = File::open(
-        env::var("PWD").expect("") + &String::from("/package.json")
-    );
-    match file {
+fn fetch_installed_packages() {
+    let mut path = String::new();
+    match env::var("PWD") {
+        Ok(pwd) => {
+            path.push_str(&pwd);
+            path.push_str("/package.json");
+        },
+        Err(_) => {
+            return;
+        }
+    }
+
+    match File::open(path) {
         Ok(file) => {
-            let pkg: Pkg = serde_json::from_reader(file).expect("JSON parsing error.");
-            match pkg.dependencies {
-                Some(dependencies) => {
-                    dependencies.keys().for_each(|package| println!("{}", package));
+            match serde_json::from_reader(file) {
+                Ok(pkg) => {
+                    let pkg: Pkg = pkg;
+                    match pkg.dependencies {
+                        Some(dependencies) => {
+                            dependencies.keys().for_each(|package| println!("{}", package));
+                        },
+                        None => (),
+                    };
+                    match pkg.devDependencies {
+                        Some(dev_dependencies) => {
+                            dev_dependencies.keys().for_each(|package| println!("{}", package));
+                        },
+                        None => (),
+                    };
                 },
-                None => (),
-            }
-            match pkg.devDependencies {
-                Some(dev_dependencies) => {
-                    dev_dependencies.keys().for_each(|package| println!("{}", package));
-                },
-                None => (),
+                Err(_) => {
+                    return;
+                }
             }
         },
         Err(_) => {
@@ -55,7 +70,7 @@ fn main() {
 
     match env::args().find(|arg| arg == "remove") {
         Some(_) => {
-            print_installed_packages();
+            fetch_installed_packages();
             return;
         },
         None => (),

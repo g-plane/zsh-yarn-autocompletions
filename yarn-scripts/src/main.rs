@@ -10,17 +10,32 @@ extern crate serde_derive;
 
 #[derive(Deserialize)]
 struct Pkg {
-    scripts: HashMap<String, String>
+    scripts: Option<HashMap<String, String>>
 }
 
 fn fetch_npm_scripts() {
-    let file = File::open(
-        env::var("PWD").expect("") + &String::from("/package.json")
-    );
-    match file {
+    let mut path = String::new();
+    match env::var("PWD") {
+        Ok(pwd) => {
+            path.push_str(&pwd);
+            path.push_str("/package.json");
+        },
+        Err(_) => {
+            return;
+        }
+    }
+    match File::open(path) {
         Ok(file) => {
-            let pkg: Pkg = serde_json::from_reader(file).expect("JSON parsing error.");
-            pkg.scripts.keys().for_each(|script| println!("{}", script));
+            match serde_json::from_reader(file) {
+                Ok(package) => {
+                    let package: Pkg = package;
+                    match package.scripts {
+                        Some(scripts) => scripts.keys().for_each(|script| println!("{}", script)),
+                        None => ()
+                    }
+                },
+                Err(_) => ()
+            }
         },
         Err(_) => ()
     };
