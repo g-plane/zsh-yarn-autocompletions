@@ -9,10 +9,10 @@ Once you compiled the source code to binary,
 please run:
 
 ```shell
-$ mkdir $ZSH_CUSTOM/plugins/zsh-yarn-autocompletions
+$ mkdir $ZSH_CUSTOM/plugins/yarn-autocompletions
 ```
 
-Then put the `zsh-yarn-autocompletions.plugin.zsh` file
+Then put the `yarn-autocompletions.plugin.zsh` file
 and the binary files to the directory you created before.
 
 ## Contribution
