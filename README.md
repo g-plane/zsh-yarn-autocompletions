@@ -11,14 +11,12 @@ so Rust development environment is needed.
 
 First please make sure you have install Rust and Cargo.
 
+Next, please use `git clone` to clone this repo.
+
 Then you can run:
 
 ```bash
-$ cd yarn-deps
-$ cargo build --release
-$ cd ..
-$ cd yarn-scripts
-$ cargo build --release
+$ ./build.sh
 ```
 
 The binary files are located in `yarn-deps/target/release/yarn-deps`
