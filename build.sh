@@ -1,4 +1,4 @@
-function build() {
+build() {
   rm -rf ./$1/target
   cd $1
   cargo build --release
