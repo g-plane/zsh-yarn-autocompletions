@@ -5,7 +5,7 @@
 ## Installation
 
 You need to compile the Rust code by yourself,
-so Rust development is needed.
+so Rust development environment is needed.
 
 ### Steps to compile
 
