@@ -24,6 +24,7 @@ before_deploy:
   - cp ./yarn-deps/target/release/yarn-deps dist/
   - cp ./yarn-scripts/target/release/yarn-scripts dist/
   - cp ./yarn-autocompletions.plugin.zsh dist/
+  - cp ./install.sh dist/
   - cp ./README.md dist/
   - cp ./LICENSE dist/
   - cd dist
