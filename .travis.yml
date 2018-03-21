@@ -1,0 +1,44 @@
+language: rust
+rust: stable
+
+cache: cargo
+
+branches:
+  only:
+    - master
+
+env: PLATFORM=linux
+
+script:
+  - cd yarn-deps
+  - cargo test
+  - cd ..
+  - cd yarn-scripts
+  - cargo test
+  - cd ..
+
+before_deploy:
+  - git config --local user.name "Pig Fang"
+  - git config --local user.email "g-plane@hotmail.com"
+  - cd yarn-deps
+  - cargo build --release
+  - cd ..
+  - cd yarn-scripts
+  - cargo build --release
+  - cd ..
+  - zip yarn-autocompletions_${TRAVIS_TAG}_${PLATFORM}.zip -j ./yarn-deps/target/release/yarn-deps ./yarn-scripts/target/release/yarn-scripts ./yarn-autocompletions.plugin.zsh
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  on:
+    branch: master
+    tag: true
+  file: yarn-autocompletions_${TRAVIS_TAG}_${PLATFORM}.zip
+  api_key:
+    secure: "wOMVXQvSuydGN1I+VA5Hc+qAmd8e79Pjnmh54L2GZ4/17czYGwPlUw6x4L5QnIdgkJoZz0JmVs7CDEv6pSzF+7Lf2InCROlzSCkg0l3G0L8BfsxQOpfDtqZZqxK1oF1EZeMFtz1WY4bd6evZi46iEomVf9cJ9YcPrnjnTqFmyFpHSfGudO5g6UZi8KifUHt7ZKuBJL3lH7HbD1nJHNtQM8vrqhlfwsaGYS0J2uSQ4fVjZqeD2T4gMICe4tfSnIOXu0PH/IOMkgLtyef6wbpl51tpp2Mg7cNl0vIREOkwgJm8r4244FOOhMlC71svZHPecK1aZzmYoefA5RIL5vJzmL2jBlnBiJjLyQF0KmuKJZjoA5tj6F53OiZKP1DRS5OSQNLyKlHW84S3reCkbrXRrrm4okbYplp8BcCEoq9KP+KIRMyz532cf0SroGpYadke+FWbeqyg4SgyIsJ04tWQWMMEmlNMe/yOiUF+U00VYJqqFd9Oivde3634PIIyahLGQ8i3w6noeOJGLSR6N1i6YsVWYZf8XB81GjpjBAeqFoyRp/Ybwk8EqhnQxdBeqXdKBuRUhuWueVGtryGq01YZfKviq7Vx+Iomhq7/Bqdj6GM9wAMjzsmULwrz8yBjnVT/Zkd+KsptKJ0Z3Ir8cVa6VgdCFwIdOAKZSgbI7mp1jKI="
+
+matrix:
+  include:
+    - os: osx
+      env: PLATFORM=macos
