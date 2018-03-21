@@ -1,0 +1,11 @@
+{
+  "description": "This is just fixture for test.",
+  "dependencies": {
+    "c": "",
+    "a": ""
+  },
+  "devDependencies": {
+    "b": "",
+    "d": ""
+  }
+}

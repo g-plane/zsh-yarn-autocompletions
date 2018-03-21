@@ -13,7 +13,7 @@ struct Pkg {
     scripts: Option<HashMap<String, String>>
 }
 
-fn fetch_npm_scripts() {
+fn fetch_npm_scripts() -> String {
     let mut path = String::new();
     match env::var("PWD") {
         Ok(pwd) => {
@@ -21,7 +21,7 @@ fn fetch_npm_scripts() {
             path.push_str("/package.json");
         },
         Err(_) => {
-            return;
+            return String::new();
         }
     }
     match File::open(path) {
@@ -30,17 +30,29 @@ fn fetch_npm_scripts() {
                 Ok(package) => {
                     let package: Pkg = package;
                     match package.scripts {
-                        Some(scripts) => scripts.keys().for_each(|script| println!("{}", script)),
-                        None => ()
+                        Some(scripts) => scripts.keys().fold(
+                            String::new(),
+                            |acc, script| acc + &script + "\n"
+                        ),
+                        None => String::new()
                     }
                 },
-                Err(_) => ()
+                Err(_) => String::new()
             }
         },
-        Err(_) => ()
-    };
+        Err(_) => String::new()
+    }
 }
 
 fn main() {
-    fetch_npm_scripts();
+    print!("{}", fetch_npm_scripts());
+}
+
+#[test]
+fn test_fetch_scripts() {
+    let output = fetch_npm_scripts();
+    let output = output.trim();
+    let mut scripts: Vec<&str> = output.split('\n').collect();
+    scripts.sort();
+    assert_eq!(scripts, ["build", "commit", "dev", "lint"]);
 }

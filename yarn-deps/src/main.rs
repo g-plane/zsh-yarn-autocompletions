@@ -15,7 +15,7 @@ struct Pkg {
     devDependencies: Option<HashMap<String, String>>
 }
 
-fn fetch_installed_packages() {
+fn fetch_installed_packages() -> String {
     let mut path = String::new();
     match env::var("PWD") {
         Ok(pwd) => {
@@ -23,7 +23,7 @@ fn fetch_installed_packages() {
             path.push_str("/package.json");
         },
         Err(_) => {
-            return;
+            return String::new();
         }
     }
 
@@ -31,29 +31,36 @@ fn fetch_installed_packages() {
         Ok(file) => {
             match serde_json::from_reader(file) {
                 Ok(pkg) => {
+                    let mut packages: Vec<String> = Vec::new();
                     let pkg: Pkg = pkg;
+
                     match pkg.dependencies {
                         Some(dependencies) => {
-                            dependencies.keys().for_each(|package| println!("{}", package));
+                            dependencies
+                                .keys()
+                                .for_each(|package| packages.push(package.to_string()));
                         },
                         None => (),
                     };
                     match pkg.devDependencies {
                         Some(dev_dependencies) => {
-                            dev_dependencies.keys().for_each(|package| println!("{}", package));
+                            dev_dependencies
+                                .keys()
+                                .for_each(|package| packages.push(package.to_string()));
                         },
                         None => (),
                     };
+
+                    packages.iter().fold(
+                        String::new(),
+                        |acc, package| acc + &package + "\n"
+                    )
                 },
-                Err(_) => {
-                    return;
-                }
+                Err(_) => String::new()
             }
         },
-        Err(_) => {
-            return;
-        }
-    };
+        Err(_) => String::new()
+    }
 }
 
 fn main() {
@@ -70,7 +77,7 @@ fn main() {
 
     match env::args().find(|arg| arg == "remove") {
         Some(_) => {
-            fetch_installed_packages();
+            print!("{}", fetch_installed_packages());
             return;
         },
         None => (),
@@ -84,4 +91,13 @@ fn main() {
             dependencies.iter().for_each(|&dep| println!("{}", dep));
         },
     };
+}
+
+#[test]
+fn test_fetch_installed_packages() {
+    let output = fetch_installed_packages();
+    let output = output.trim();
+    let mut packages: Vec<&str> = output.split('\n').collect();
+    packages.sort();
+    assert_eq!(packages, ["a", "b", "c", "d"]);
 }

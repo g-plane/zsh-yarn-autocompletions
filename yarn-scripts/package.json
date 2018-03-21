@@ -1,0 +1,9 @@
+{
+  "description": "This is just fixture for test.",
+  "scripts": {
+    "build": "",
+    "lint": "",
+    "dev": "",
+    "commit": ""
+  }
+}
