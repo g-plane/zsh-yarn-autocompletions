@@ -10,7 +10,7 @@ extern crate serde_derive;
 
 #[derive(Deserialize)]
 struct Pkg {
-    scripts: Option<HashMap<String, String>>
+    scripts: Option<HashMap<String, String>>,
 }
 
 fn fetch_npm_scripts() -> String {
@@ -19,28 +19,25 @@ fn fetch_npm_scripts() -> String {
         Ok(pwd) => {
             path.push_str(&pwd);
             path.push_str("/package.json");
-        },
+        }
         Err(_) => {
             return String::new();
         }
     }
     match File::open(path) {
-        Ok(file) => {
-            match serde_json::from_reader(file) {
-                Ok(package) => {
-                    let package: Pkg = package;
-                    match package.scripts {
-                        Some(scripts) => scripts.keys().fold(
-                            String::new(),
-                            |acc, script| acc + &script + "\n"
-                        ),
-                        None => String::new()
-                    }
-                },
-                Err(_) => String::new()
+        Ok(file) => match serde_json::from_reader(file) {
+            Ok(package) => {
+                let package: Pkg = package;
+                match package.scripts {
+                    Some(scripts) => scripts
+                        .keys()
+                        .fold(String::new(), |acc, script| acc + &script + "\n"),
+                    None => String::new(),
+                }
             }
+            Err(_) => String::new(),
         },
-        Err(_) => String::new()
+        Err(_) => String::new(),
     }
 }
 
