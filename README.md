@@ -19,18 +19,17 @@ and show you what scripts you can run and what packages you can remove.
 Please go to the [GitHub releases](https://github.com/g-plane/zsh-yarn-autocompletions/releases)
 page and download the latest binary files.
 
-Note that you should choose correct file according to your OS.
+**Note that you should choose correct file according to your OS.**
 
 ### Add as a Zsh plugin
 
-Please run:
+Unzip the compressed file you downloaded.
+
+Then run:
 
 ```shell
-$ mkdir $ZSH_CUSTOM/plugins/yarn-autocompletions
+$ ./install.sh
 ```
-
-Unzip the compressed file you downloaded before
-and put files to the directory you created before.
 
 Next please edit your `.zshrc` file.
 Add `yarn-autocompletions` to `plugins` section.
