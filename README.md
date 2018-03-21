@@ -4,35 +4,23 @@
 
 ## Installation
 
-You need to compile the Rust code by yourself,
-so Rust development environment is needed.
+### Download
 
-### Steps to compile
+Please go to the [GitHub releases](https://github.com/g-plane/zsh-yarn-autocompletions/releases)
+page and download the latest binary files.
 
-First please make sure you have install Rust and Cargo.
-
-Next, please use `git clone` to clone this repo.
-
-Then you can run:
-
-```bash
-$ ./build.sh
-```
-
-The binary files are located in `yarn-deps/target/release/yarn-deps`
-and `yarn-scripts/target/release/yarn-scripts`.
+Note that you should choose correct file according to your OS.
 
 ### Add as a Zsh plugin
 
-Once you compiled the source code to binary,
-please run:
+Please run:
 
 ```shell
 $ mkdir $ZSH_CUSTOM/plugins/yarn-autocompletions
 ```
 
-Then put the `yarn-autocompletions.plugin.zsh` file
-and the binary files to the directory you created before.
+Unzip the compressed file you downloaded before
+and put files to the directory you created before.
 
 Next please edit your `.zshrc` file.
 Add `yarn-autocompletions` to `plugins` section.
