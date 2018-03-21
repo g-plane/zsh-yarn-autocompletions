@@ -7,6 +7,11 @@
 [![license](https://img.shields.io/github/license/g-plane/zsh-yarn-autocompletions.svg?style=flat-square)](https://github.com/g-plane/zsh-yarn-autocompletions/blob/master/LICENSE)
 [![Github Releases](https://img.shields.io/github/downloads/g-plane/zsh-yarn-autocompletions/latest/total.svg?style=flat-square)](https://github.com/g-plane/zsh-yarn-autocompletions/releases)
 
+## What can it do?
+
+This Zsh plugin can read the `package.json` file in current directory
+and show you what scripts you can run and what packages you can remove.
+
 ## Installation
 
 ### Download
