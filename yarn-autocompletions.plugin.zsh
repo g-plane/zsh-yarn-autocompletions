@@ -1,23 +1,7 @@
-function _yarn_autocompletions_scripts () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions scripts)
-    completions=(${=compls})
-    compadd -- $completions
-}
+YARN_AUTO_COMP_PATH="$ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions"
 
-function _yarn_autocompletions_add () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions add)
-    completions=(${=compls})
-    compadd -- $completions
-}
-
-function _yarn_autocompletions_add_dev () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions add-dev)
-    completions=(${=compls})
-    compadd -- $completions
-}
-
-function _yarn_autocompletions_remove () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions remove)
+function _fetch_yarn_autocompletions_result () {
+    compls=$($YARN_AUTO_COMP_PATH $1)
     completions=(${=compls})
     compadd -- $completions
 }
@@ -27,16 +11,16 @@ function _yarn_autocompletions () {
         add)
             if [[ $words[3] == "--dev" ]]
             then
-                _yarn_autocompletions_add_dev
+                _fetch_yarn_autocompletions_result "add-dev"
             else
-                _yarn_autocompletions_add
+                _fetch_yarn_autocompletions_result "add"
             fi
             ;;
         remove)
-            _yarn_autocompletions_remove
+            _fetch_yarn_autocompletions_result "remove"
             ;;
         *)
-            _yarn_autocompletions_scripts
+            _fetch_yarn_autocompletions_result "scripts"
             ;;
     esac
 }
