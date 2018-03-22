@@ -1,3 +1,9 @@
+if [ -z "$1" ]
+then
+    echo "Plugins directory not specified, please pass your zsh plugins directory as a parameter."
+    exit 1
+fi
+
 if [ ! -d $1/yarn-autocompletions ]
 then
     mkdir $1/yarn-autocompletions
