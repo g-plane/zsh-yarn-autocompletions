@@ -3,26 +3,12 @@ rust: stable
 
 cache: cargo
 
-script:
-  - cd yarn-deps
-  - cargo test
-  - cd ..
-  - cd yarn-scripts
-  - cargo test
-  - cd ..
-
 before_deploy:
   - git config --local user.name "Pig Fang"
   - git config --local user.email "g-plane@hotmail.com"
-  - cd yarn-deps
   - cargo build --release
-  - cd ..
-  - cd yarn-scripts
-  - cargo build --release
-  - cd ..
   - mkdir dist
-  - cp ./yarn-deps/target/release/yarn-deps dist/
-  - cp ./yarn-scripts/target/release/yarn-scripts dist/
+  - cp ./target/release/yarn-autocompletions dist/
   - cp ./yarn-autocompletions.plugin.zsh dist/
   - cp ./install.sh dist/
   - cp ./README.md dist/

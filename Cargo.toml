@@ -1,5 +1,5 @@
 [package]
-name = "yarn-deps"
+name = "yarn-autocompletions"
 version = "0.1.0"
 authors = ["Pig Fang <g-plane@hotmail.com>"]
 

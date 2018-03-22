@@ -5,15 +5,12 @@ use std::collections::HashMap;
 extern crate serde;
 extern crate serde_json;
 
-#[macro_use]
-extern crate serde_derive;
-
 #[derive(Deserialize)]
 struct Pkg {
     scripts: Option<HashMap<String, String>>,
 }
 
-fn fetch_npm_scripts() -> String {
+pub fn fetch_npm_scripts() -> String {
     let mut path = String::new();
     match env::var("PWD") {
         Ok(pwd) => {
@@ -39,10 +36,6 @@ fn fetch_npm_scripts() -> String {
         },
         Err(_) => String::new(),
     }
-}
-
-fn main() {
-    print!("{}", fetch_npm_scripts());
 }
 
 #[test]

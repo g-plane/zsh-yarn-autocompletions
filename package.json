@@ -1,0 +1,17 @@
+{
+  "description": "This is fixture for testing.",
+  "scripts": {
+    "dev": "",
+    "build": "",
+    "commit": "",
+    "lint": ""
+  },
+  "dependencies": {
+    "a": "",
+    "d": ""
+  },
+  "devDependencies": {
+    "c": "",
+    "b": ""
+  }
+}

@@ -1,23 +1,23 @@
 function _yarn_autocompletions_scripts () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-scripts)
+    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions scripts)
     completions=(${=compls})
     compadd -- $completions
 }
 
 function _yarn_autocompletions_add () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-deps)
+    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions add)
     completions=(${=compls})
     compadd -- $completions
 }
 
 function _yarn_autocompletions_add_dev () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-deps dev)
+    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions add-dev)
     completions=(${=compls})
     compadd -- $completions
 }
 
 function _yarn_autocompletions_remove () {
-    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-deps remove)
+    compls=$($ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions remove)
     completions=(${=compls})
     compadd -- $completions
 }

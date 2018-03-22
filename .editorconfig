@@ -10,3 +10,9 @@ insert_final_newline = true
 
 [*.rs]
 indent_size = 4
+
+[*.sh]
+indent_size = 4
+
+[*.zsh]
+indent_size = 4

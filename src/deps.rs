@@ -5,9 +5,6 @@ use std::collections::HashMap;
 extern crate serde;
 extern crate serde_json;
 
-#[macro_use]
-extern crate serde_derive;
-
 #[allow(non_snake_case)]
 #[derive(Deserialize)]
 struct Pkg {
@@ -15,7 +12,7 @@ struct Pkg {
     devDependencies: Option<HashMap<String, String>>,
 }
 
-fn fetch_installed_packages() -> String {
+pub fn fetch_installed_packages() -> String {
     let mut path = String::new();
     match env::var("PWD") {
         Ok(pwd) => {
@@ -60,27 +57,14 @@ fn fetch_installed_packages() -> String {
     }
 }
 
-fn main() {
-    let dependencies = ["vue", "vuex"];
+pub fn return_dependencies() -> String {
+    let dependencies = vec!["vue", "vuex"];
+    dependencies.join("\n")
+}
 
-    let dev_dependencies = ["typescript", "eslint", "eslint-config-gplane"];
-
-    match env::args().find(|arg| arg == "remove") {
-        Some(_) => {
-            print!("{}", fetch_installed_packages());
-            return;
-        }
-        None => (),
-    };
-
-    match env::args().find(|arg| arg == "dev") {
-        Some(_) => {
-            dev_dependencies.iter().for_each(|&dep| println!("{}", dep));
-        }
-        None => {
-            dependencies.iter().for_each(|&dep| println!("{}", dep));
-        }
-    };
+pub fn return_dev_dependencies() -> String {
+    let dev_dependencies = vec!["typescript", "eslint", "eslint-config-gplane"];
+    dev_dependencies.join("\n")
 }
 
 #[test]
