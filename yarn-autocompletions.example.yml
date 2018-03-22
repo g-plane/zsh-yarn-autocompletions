@@ -1,0 +1,11 @@
+dependencies:
+  - react
+  - react-dom
+
+dev_dependencies:
+  - webpack
+  - babel-core
+
+exclude:
+  - vuex
+  - typescript
