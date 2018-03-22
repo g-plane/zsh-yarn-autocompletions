@@ -25,10 +25,16 @@ page and download the latest binary files.
 
 Unzip the compressed file you downloaded.
 
-Then run:
+For 1.x users, please run:
 
 ```shell
 $ ./install.sh $ZSH_CUSTOM/plugins
+```
+
+For 0.2 users, please run:
+
+```shell
+$ ./install.sh $ZSH_CUSTOM
 ```
 
 Next please edit your `.zshrc` file.
