@@ -1,6 +1,6 @@
 [package]
 name = "yarn-autocompletions"
-version = "0.1.0"
+version = "1.0.0-0"
 authors = ["Pig Fang <g-plane@hotmail.com>"]
 
 [dependencies]
