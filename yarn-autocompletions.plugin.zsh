@@ -1,4 +1,4 @@
-YARN_AUTO_COMP_PATH="$ZSH_CUSTOM/plugins/yarn-autocompletions/yarn-autocompletions"
+YARN_AUTO_COMP_PATH="$(dirname $0)/yarn-autocompletions"
 
 function _fetch_yarn_autocompletions_result () {
     compls=$($YARN_AUTO_COMP_PATH $1)
