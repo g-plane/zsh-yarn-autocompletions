@@ -28,7 +28,7 @@ Unzip the compressed file you downloaded.
 Then run:
 
 ```shell
-$ ./install.sh $ZSH_CUSTOM
+$ ./install.sh $ZSH_CUSTOM/plugins
 ```
 
 Next please edit your `.zshrc` file.
