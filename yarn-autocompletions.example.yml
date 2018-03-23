@@ -1,11 +1,9 @@
 dependencies:
-  - react
   - react-dom
 
 dev_dependencies:
-  - webpack
-  - babel-core
+  - babel-loader
 
 exclude:
-  - vuex
+  - axios
   - typescript

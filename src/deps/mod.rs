@@ -7,6 +7,8 @@ extern crate serde;
 extern crate serde_json;
 extern crate serde_yaml;
 
+mod packages;
+
 #[allow(non_snake_case)]
 #[derive(Deserialize)]
 struct Pkg {
@@ -72,7 +74,7 @@ pub fn return_dependencies(path: Option<PathBuf>) -> String {
         None => default_custom_deps_file_path()
     };
 
-    let dependencies = vec!["vue", "vuex"];
+    let dependencies = packages::dependencies();
     let mut dependencies: Vec<String> = dependencies
         .iter()
         .map(|&dep| String::from(dep))
@@ -95,7 +97,7 @@ pub fn return_dev_dependencies(path: Option<PathBuf>) -> String {
         None => default_custom_deps_file_path()
     };
 
-    let dev_dependencies = vec!["typescript", "eslint"];
+    let dev_dependencies = packages::dev_dependencies();
     let mut dev_dependencies: Vec<String> = dev_dependencies
         .iter()
         .map(|&dep| String::from(dep))
@@ -196,5 +198,11 @@ fn test_return_dev_dependencies() {
     let output = output.trim();
     let mut packages: Vec<&str> = output.split('\n').collect();
     packages.sort();
-    assert_eq!(packages, ["babel-core", "eslint", "webpack"]);
+    assert_eq!(packages, [
+        "babel-core",
+        "babel-loader",
+        "babel-preset-env",
+        "eslint",
+        "webpack"
+    ]);
 }
