@@ -1,6 +1,10 @@
+# Insallation command: zplug "g-plane/zsh-yarn-autocompletions", hook-build:"zplug.sh"
+
+set -e
+
 version=$(grep -Eho "version = \"\d+\.\d+\.\d+" Cargo.toml | sed "s/version = \"//")
 
-if [ $(uname) == "Darwin" ]
+if [ $(uname) = "Darwin" ]
 then
     platform="macos"
 else
@@ -16,6 +20,6 @@ else
     curl -fsSL $url > tarball.tar.gz
 fi
 
-tar -zxf tarball.tar.gz ./ ./yarn-autocompletions
+tar -zxf tarball.tar.gz ./yarn-autocompletions
 
 rm tarball.tar.gz
