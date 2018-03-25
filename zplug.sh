@@ -1,4 +1,4 @@
-# Insallation command: zplug "g-plane/zsh-yarn-autocompletions", hook-build:"zplug.sh"
+#!/usr/bin/env zsh
 
 set -e
 
