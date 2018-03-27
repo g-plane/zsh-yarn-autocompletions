@@ -2,7 +2,7 @@
 
 set -e
 
-version=$(grep -Eho "version = \"\d+\.\d+\.\d+" Cargo.toml | sed "s/version = \"//")
+version=$(grep '^version =' Cargo.toml | cut -d'"' -f2)
 
 if [ $(uname) = "Darwin" ]
 then
@@ -20,6 +20,6 @@ else
     curl -fsSL $url > tarball.tar.gz
 fi
 
-tar -zxf tarball.tar.gz ./yarn-autocompletions
+tar -zxf tarball.tar.gz yarn-autocompletions
 
 rm tarball.tar.gz
