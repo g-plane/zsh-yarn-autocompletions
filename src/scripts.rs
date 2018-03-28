@@ -21,20 +21,27 @@ pub fn fetch_npm_scripts() -> String {
             return String::new();
         }
     }
-    match File::open(path) {
-        Ok(file) => match serde_json::from_reader(file) {
-            Ok(package) => {
-                let package: Pkg = package;
-                match package.scripts {
-                    Some(scripts) => scripts
-                        .keys()
-                        .fold(String::new(), |acc, script| acc + &script + "\n"),
-                    None => String::new(),
-                }
-            }
-            Err(_) => String::new(),
-        },
-        Err(_) => String::new(),
+
+    let file = File::open(path);
+    if let Err(_) = file {
+        return String::new();
+    }
+
+    let package: Result<Pkg, _> = serde_json::from_reader(file.unwrap());
+    if let Err(_) = package {
+        return String::new();
+    }
+    let package = package.unwrap();
+
+    match package.scripts {
+        Some(scripts) => scripts
+            .keys()
+            .fold(String::new(), |mut acc, script| {
+                acc.push_str(script);
+                acc.push('\n');
+                acc
+            }),
+        None => String::new(),
     }
 }
 
