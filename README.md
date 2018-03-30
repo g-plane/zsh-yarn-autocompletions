@@ -17,14 +17,16 @@ It's configurable.
 
 ## Installation
 
-### Download
+### Manually
+
+#### Download
 
 Please go to the [GitHub releases](https://github.com/g-plane/zsh-yarn-autocompletions/releases)
 page and download the latest binary files.
 
 **Note that you should choose correct file according to your OS.**
 
-### Add as a Zsh plugin
+#### Add as a Zsh plugin
 
 Unzip the compressed file you downloaded.
 
@@ -53,6 +55,16 @@ plugins=(
 ```
 
 Restart your terminal.
+
+### With a plugin manager
+
+#### [zplug](https://github.com/zplug/zplug)
+
+Update your `.zshrc` file with the following line:
+
+```
+zplug "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
+```
 
 ## Customize the autocompletion of `yarn add` command
 
