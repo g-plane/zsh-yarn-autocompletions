@@ -1,17 +1,40 @@
 pub fn dependencies<'a>() -> Vec<&'a str> {
     vec![
-        "react",
-        "vue",
+        "@babel/runtime",
+        "async",
         "axios",
+        "body-parser",
+        "chalk",
+        "commander",
+        "cookie-parser",
+        "debug",
+        "express",
+        "gulp",
+        "next",
+        "preact",
+        "preact-compat",
+        "react",
+        "react-dom",
+        "request",
+        "styled-components",
+        "vue",
     ]
 }
 
 pub fn dev_dependencies<'a>() -> Vec<&'a str> {
     vec![
-        "babel-core",
-        "babel-preset-env",
+        "@babel/cli",
+        "@babel/core",
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "@babel/preset-typescript",
+        "ava",
         "eslint",
+        "jest",
+        "standard",
+        "stylelint",
         "typescript",
         "webpack",
+        "xo",
     ]
 }
