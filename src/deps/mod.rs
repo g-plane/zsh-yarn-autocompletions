@@ -194,5 +194,5 @@ fn test_return_dev_dependencies() {
     let path = PathBuf::from("yarn-autocompletions.example.yml");
     let output = return_dev_dependencies(Some(path));
     assert!(output.contains("@babel/core"));
-    assert!(!output.contains("typescript"));
+    assert!(!output.contains("gulp"));
 }
