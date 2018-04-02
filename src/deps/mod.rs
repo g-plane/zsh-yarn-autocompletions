@@ -81,7 +81,7 @@ pub fn return_dependencies(path: Option<PathBuf>) -> String {
         .collect();
     let custom = fetch_custom_dependencies(&path);
     dependencies.extend(custom);
-    
+
     let exclude = fetch_exclude_dependencies(&path);
     let dependencies: Vec<String> = dependencies
         .into_iter()
@@ -193,6 +193,6 @@ fn test_return_dependencies() {
 fn test_return_dev_dependencies() {
     let path = PathBuf::from("yarn-autocompletions.example.yml");
     let output = return_dev_dependencies(Some(path));
-    assert!(output.contains("babel-core"));
-    assert!(!output.contains("typescript"));
+    assert!(output.contains("@babel/core"));
+    assert!(!output.contains("gulp"));
 }

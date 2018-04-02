@@ -6,4 +6,4 @@ dev_dependencies:
 
 exclude:
   - axios
-  - typescript
+  - gulp
