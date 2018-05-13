@@ -1,5 +1,5 @@
 use std::env;
-use std::fs::File;
+use std::fs::{self, File};
 use std::path::PathBuf;
 use std::collections::HashMap;
 
@@ -170,6 +170,27 @@ fn fetch_exclude_dependencies(path: &PathBuf) -> Vec<String> {
     } else {
         vec![]
     }
+}
+
+pub fn list_node_modules<'a>() -> String {
+    let pwd = env::var("PWD");
+    let pwd =  match pwd {
+        Ok(var) => var,
+        Err(_) => return String::new(),
+    };
+    let path = PathBuf::from(pwd);
+    match fs::read_dir(path.join("node_modules")) {
+        Ok(dirs) => dirs.map(|dir| {
+            match dir {
+                Ok(entry) => match entry.file_name().into_string() {
+                    Ok(str) => str,
+                    Err(_) => String::new(),
+                },
+                Err(_) => String::new(),
+            }
+        }).collect::<Vec<_>>(),
+        Err(_) => vec![],
+    }.join("\n")
 }
 
 #[test]

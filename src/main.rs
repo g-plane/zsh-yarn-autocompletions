@@ -13,6 +13,7 @@ fn main() {
         "add" => println!("{}", deps::return_dependencies(None)),
         "add-dev" => println!("{}", deps::return_dev_dependencies(None)),
         "remove" => print!("{}", deps::fetch_installed_packages()),
+        "why" => print!("{}", deps::list_node_modules()),
         _ => ()
     };
 }

@@ -22,6 +22,9 @@ function _yarn_autocompletions () {
         upgrade)
             _fetch_yarn_autocompletions_result "remove"
             ;;
+        why)
+            _fetch_yarn_autocompletions_result "why"
+            ;;
         *)
             _fetch_yarn_autocompletions_result "scripts"
             ;;
