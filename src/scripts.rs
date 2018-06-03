@@ -36,11 +36,9 @@ pub fn fetch_npm_scripts() -> String {
     match package.scripts {
         Some(scripts) => scripts
             .keys()
-            .fold(String::new(), |mut acc, script| {
-                acc.push_str(script);
-                acc.push('\n');
-                acc
-            }),
+            .map(|script| script.to_string())
+            .collect::<Vec<String>>()
+            .join("\n"),
         None => String::new(),
     }
 }

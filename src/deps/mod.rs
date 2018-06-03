@@ -43,24 +43,26 @@ pub fn fetch_installed_packages() -> String {
 
                 match pkg.dependencies {
                     Some(dependencies) => {
-                        dependencies
+                        let mut deps = dependencies
                             .keys()
-                            .for_each(|package| packages.push(package.to_string()));
+                            .map(|package| package.to_string())
+                            .collect::<Vec<_>>();
+                        packages.append(&mut deps);
                     }
                     None => (),
                 };
                 match pkg.devDependencies {
                     Some(dev_dependencies) => {
-                        dev_dependencies
+                        let mut deps = dev_dependencies
                             .keys()
-                            .for_each(|package| packages.push(package.to_string()));
+                            .map(|package| package.to_string())
+                            .collect::<Vec<_>>();
+                        packages.append(&mut deps);
                     }
                     None => (),
                 };
 
-                packages
-                    .iter()
-                    .fold(String::new(), |acc, package| acc + &package + "\n")
+                packages.join("\n")
             }
             Err(_) => String::new(),
         },
