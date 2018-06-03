@@ -17,6 +17,7 @@ pub fn dependencies<'a>() -> Vec<&'a str> {
         "request",
         "styled-components",
         "vue",
+        "vuex",
     ]
 }
 
@@ -28,12 +29,24 @@ pub fn dev_dependencies<'a>() -> Vec<&'a str> {
         "@babel/preset-react",
         "@babel/preset-typescript",
         "ava",
+        "babel-eslint",
+        "babel-loader",
+        "css-loader",
         "eslint",
+        "file-loader",
         "gulp",
         "jest",
+        "mocha",
+        "rollup",
         "standard",
+        "style-loader",
         "stylelint",
+        "ts-loader",
+        "tslint",
         "typescript",
+        "typescript-eslint-parser",
+        "url-loader",
+        "vue-loader",
         "webpack",
         "xo",
     ]
