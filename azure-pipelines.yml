@@ -9,4 +9,4 @@ pool:
 container: rust
 
 steps:
-- script: cargo check
+- script: cargo test
