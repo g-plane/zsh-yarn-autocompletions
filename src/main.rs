@@ -1,8 +1,5 @@
 use std::env;
 
-#[macro_use]
-extern crate serde_derive;
-
 mod scripts;
 mod deps;
 

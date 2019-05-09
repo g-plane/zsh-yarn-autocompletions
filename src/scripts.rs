@@ -1,9 +1,7 @@
+use serde::Deserialize;
 use std::env;
 use std::fs::File;
 use std::collections::HashMap;
-
-extern crate serde;
-extern crate serde_json;
 
 #[derive(Deserialize)]
 struct Pkg {

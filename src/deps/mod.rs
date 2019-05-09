@@ -1,11 +1,8 @@
+use serde::Deserialize;
 use std::env;
 use std::fs::{self, File};
 use std::path::PathBuf;
 use std::collections::HashMap;
-
-extern crate serde;
-extern crate serde_json;
-extern crate serde_yaml;
 
 mod packages;
 
