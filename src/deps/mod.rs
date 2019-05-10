@@ -78,7 +78,7 @@ pub fn return_dev_dependencies(path: Option<PathBuf>) -> io::Result<String> {
 }
 
 fn default_custom_deps_file_path() -> PathBuf {
-    env::home_dir()
+    dirs::home_dir()
         .map(|path| path.join(".yarn-autocompletions.yml"))
         .unwrap_or(PathBuf::new())
 }
