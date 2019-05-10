@@ -1,5 +1,7 @@
-pub fn dependencies<'a>() -> Vec<&'a str> {
-    vec![
+use std::collections::HashSet;
+
+pub fn dependencies() -> HashSet<String> {
+    let names = [
         "@babel/runtime",
         "async",
         "axios",
@@ -18,11 +20,12 @@ pub fn dependencies<'a>() -> Vec<&'a str> {
         "styled-components",
         "vue",
         "vuex",
-    ]
+    ];
+    names.iter().map(|s| s.to_string()).collect::<HashSet<_>>()
 }
 
-pub fn dev_dependencies<'a>() -> Vec<&'a str> {
-    vec![
+pub fn dev_dependencies() -> HashSet<String> {
+    let names = [
         "@babel/cli",
         "@babel/core",
         "@babel/preset-env",
@@ -40,14 +43,13 @@ pub fn dev_dependencies<'a>() -> Vec<&'a str> {
         "rollup",
         "standard",
         "style-loader",
-        "stylelint",
         "ts-loader",
-        "tslint",
         "typescript",
-        "typescript-eslint-parser",
+        "@typescript/eslint-parser",
         "url-loader",
         "vue-loader",
         "webpack",
         "xo",
-    ]
+    ];
+    names.iter().map(|s| s.to_string()).collect::<HashSet<_>>()
 }
