@@ -58,11 +58,20 @@ Restart your terminal.
 
 ### With a plugin manager
 
+#### [zplugin](https://github.com/zdharma/zplugin)
+
+Update your `.zshrc` file with the following line:
+
+```zsh
+zplugin ice atload"zpcdreplay" atclone'./zplug.zsh'          
+zplugin light g-plane/zsh-yarn-autocompletions
+```
+
 #### [zplug](https://github.com/zplug/zplug)
 
 Update your `.zshrc` file with the following line:
 
-```
+```zsh
 zplug "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
 ```
 
