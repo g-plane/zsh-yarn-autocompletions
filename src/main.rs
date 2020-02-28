@@ -1,10 +1,11 @@
 mod deps;
 mod scripts;
 
-fn main() {
+#[async_std::main]
+async fn main() {
     let mut args = std::env::args();
     match args.next().unwrap_or_default().as_str() {
-        "scripts" => print!("{}", scripts::fetch_npm_scripts().unwrap_or_default()),
+        "scripts" => print!("{}", scripts::fetch_npm_scripts().await.unwrap_or_default()),
         "add" => println!(
             "{}",
             deps::return_dependencies(None).unwrap_or_default()
