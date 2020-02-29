@@ -8,15 +8,17 @@ async fn main() {
         "scripts" => print!("{}", scripts::fetch_npm_scripts().await.unwrap_or_default()),
         "add" => println!(
             "{}",
-            deps::return_dependencies(None).unwrap_or_default()
+            deps::return_dependencies(None).await.unwrap_or_default()
         ),
         "add-dev" => println!(
             "{}",
-            deps::return_dev_dependencies(None).unwrap_or_default()
+            deps::return_dev_dependencies(None)
+                .await
+                .unwrap_or_default()
         ),
         "remove" => print!(
             "{}",
-            deps::fetch_installed_packages().unwrap_or_default()
+            deps::fetch_installed_packages().await.unwrap_or_default()
         ),
         "why" => print!("{}", deps::list_node_modules().unwrap_or_default()),
         _ => (),

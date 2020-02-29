@@ -1,9 +1,9 @@
+use async_std::fs;
+use async_std::io::Result;
+use itertools::Itertools;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use std::env;
-use std::fs::{self, File};
-use std::io;
-use std::iter::FromIterator;
 use std::path::PathBuf;
 
 mod packages;
@@ -15,137 +15,122 @@ struct Pkg {
     dev_dependencies: Option<HashMap<String, String>>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 struct UserCustomDeps {
-    dependencies: Option<Vec<String>>,
-    dev_dependencies: Option<Vec<String>>,
-    exclude: Option<Vec<String>>,
+    dependencies: Option<HashSet<String>>,
+    dev_dependencies: Option<HashSet<String>>,
+    exclude: Option<HashSet<String>>,
 }
 
-pub fn fetch_installed_packages() -> std::io::Result<String> {
-    let mut path = env::current_dir().unwrap_or(PathBuf::from("."));
+pub async fn fetch_installed_packages() -> Result<String> {
+    let mut path = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
     path.push("package.json");
 
-    let file = File::open(path)?;
-    let pkg: Pkg = serde_json::from_reader(file)?;
-    let mut packages: Vec<String> = vec![];
+    let content = fs::read(path).await?;
+    let pkg = serde_json::from_slice::<Pkg>(&content)?;
 
-    if let Some(dependencies) = pkg.dependencies {
-        for dependency in dependencies.keys() {
-            packages.push(dependency.clone());
-        }
-    }
-    if let Some(dependencies) = pkg.dev_dependencies {
-        for dependency in dependencies.keys() {
-            packages.push(dependency.clone());
-        }
-    }
-    Ok(packages.join("\n"))
+    let deps = pkg
+        .dependencies
+        .map(|deps| deps.keys().join("\n"))
+        .unwrap_or_default();
+    let dev_deps = pkg
+        .dev_dependencies
+        .map(|deps| deps.keys().join("\n"))
+        .unwrap_or_default();
+
+    Ok(format!("{}\n{}", deps, dev_deps))
 }
 
-pub fn return_dependencies(path: Option<PathBuf>) -> io::Result<String> {
-    let path = path.unwrap_or(default_custom_deps_file_path());
+pub async fn return_dependencies(path: Option<PathBuf>) -> Result<String> {
+    let path = path.unwrap_or_else(default_custom_deps_file_path);
+
+    let custom = fetch_custom_dependencies(&path).await?;
+    let exclude = fetch_exclude_dependencies(&path).await?;
 
     let mut dependencies = packages::dependencies();
-    for dep in fetch_custom_dependencies(&path)? {
-        dependencies.insert(dep);
-    }
-
-    let exclude = fetch_exclude_dependencies(&path)?;
-    let dependencies = dependencies.difference(&exclude);
-    Ok(dependencies.fold(String::new(), |mut acc, cur| {
-        acc.push_str(cur);
-        acc.push_str("\n");
-        acc
-    }))
+    dependencies.extend(custom.into_iter());
+    let dependencies = dependencies
+        .difference(&exclude)
+        .fold(String::new(), |acc, cur| acc + cur + "\n");
+    Ok(dependencies)
 }
 
-pub fn return_dev_dependencies(path: Option<PathBuf>) -> io::Result<String> {
-    let path = path.unwrap_or(default_custom_deps_file_path());
+pub async fn return_dev_dependencies(path: Option<PathBuf>) -> Result<String> {
+    let path = path.unwrap_or_else(default_custom_deps_file_path);
 
-    let mut dev_dependencies = packages::dev_dependencies();
-    for dep in fetch_custom_dev_dependencies(&path)? {
-        dev_dependencies.insert(dep);
-    }
+    let custom = fetch_custom_dev_dependencies(&path).await?;
+    let exclude = fetch_exclude_dependencies(&path).await?;
 
-    let exclude = fetch_exclude_dependencies(&path)?;
-    let dev_dependencies = dev_dependencies.difference(&exclude);
-    Ok(dev_dependencies.fold(String::new(), |mut acc, cur| {
-        acc.push_str(cur);
-        acc.push_str("\n");
-        acc
-    }))
+    let mut dependencies = packages::dev_dependencies();
+    dependencies.extend(custom.into_iter());
+    let dependencies = dependencies
+        .difference(&exclude)
+        .fold(String::new(), |acc, cur| acc + cur + "\n");
+    Ok(dependencies)
 }
 
 fn default_custom_deps_file_path() -> PathBuf {
     dirs::home_dir()
         .map(|path| path.join(".yarn-autocompletions.yml"))
-        .unwrap_or(PathBuf::new())
+        .unwrap_or_default()
 }
 
-fn fetch_custom_dependencies(path: &PathBuf) -> io::Result<Vec<String>> {
-    let custom = serde_yaml::from_reader(File::open(path)?).unwrap_or(UserCustomDeps {
-        dependencies: None,
-        dev_dependencies: None,
-        exclude: None,
-    });
-    Ok(custom.dependencies.unwrap_or(vec![]))
+async fn fetch_custom_dependencies(path: &PathBuf) -> Result<HashSet<String>> {
+    let content = fs::read(path).await?;
+    let custom = serde_yaml::from_slice::<UserCustomDeps>(&content).unwrap_or_default();
+
+    Ok(custom.dependencies.unwrap_or_default())
 }
 
-fn fetch_custom_dev_dependencies(path: &PathBuf) -> io::Result<Vec<String>> {
-    let custom = serde_yaml::from_reader(File::open(path)?).unwrap_or(UserCustomDeps {
-        dependencies: None,
-        dev_dependencies: None,
-        exclude: None,
-    });
-    Ok(custom.dev_dependencies.unwrap_or(vec![]))
+async fn fetch_custom_dev_dependencies(path: &PathBuf) -> Result<HashSet<String>> {
+    let content = fs::read(path).await?;
+    let custom = serde_yaml::from_slice::<UserCustomDeps>(&content).unwrap_or_default();
+
+    Ok(custom.dev_dependencies.unwrap_or_default())
 }
 
-fn fetch_exclude_dependencies(path: &PathBuf) -> io::Result<HashSet<String>> {
-    let custom = serde_yaml::from_reader(File::open(path)?).unwrap_or(UserCustomDeps {
-        dependencies: None,
-        dev_dependencies: None,
-        exclude: None,
-    });
-    Ok(HashSet::from_iter(
-        custom.exclude.unwrap_or(Vec::new()).iter().cloned(),
-    ))
+async fn fetch_exclude_dependencies(path: &PathBuf) -> Result<HashSet<String>> {
+    let content = fs::read(path).await?;
+    let custom = serde_yaml::from_slice::<UserCustomDeps>(&content).unwrap_or_default();
+
+    Ok(custom.exclude.unwrap_or_default())
 }
 
-pub fn list_node_modules<'a>() -> io::Result<String> {
-    let cwd = env::current_dir().unwrap_or(PathBuf::from("."));
-    let directories = fs::read_dir(cwd.join("node_modules"))?;
-    let items = directories
-        .map(|dir| match dir {
-            Ok(entry) => entry.file_name().into_string().unwrap_or(String::new()),
-            Err(_) => String::new(),
+// TODO: use async here.
+pub fn list_node_modules() -> std::io::Result<String> {
+    let cwd = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+    let directories = std::fs::read_dir(cwd.join("node_modules"));
+
+    directories.map(|dirs| {
+        dirs.map(|dir| {
+            dir.map(|entry| entry.file_name().into_string().unwrap_or_default())
+                .unwrap_or_default()
         })
-        .collect::<Vec<_>>()
-        .join("\n");
-    Ok(items)
+        .join("\n")
+    })
 }
 
-#[test]
-fn test_fetch_installed_packages() {
-    let output = fetch_installed_packages().unwrap();
+#[async_std::test]
+async fn test_fetch_installed_packages() {
+    let output = fetch_installed_packages().await.unwrap();
     let output = output.trim();
     let mut packages: Vec<&str> = output.split('\n').collect();
     packages.sort();
     assert_eq!(packages, ["a", "b", "c", "d"]);
 }
 
-#[test]
-fn test_return_dependencies() {
+#[async_std::test]
+async fn test_return_dependencies() {
     let path = PathBuf::from("yarn-autocompletions.example.yml");
-    let output = return_dependencies(Some(path)).unwrap();
+    let output = return_dependencies(Some(path)).await.unwrap();
     assert!(output.contains("vue"));
     assert!(!output.contains("axios"));
 }
 
-#[test]
-fn test_return_dev_dependencies() {
+#[async_std::test]
+async fn test_return_dev_dependencies() {
     let path = PathBuf::from("yarn-autocompletions.example.yml");
-    let output = return_dev_dependencies(Some(path)).unwrap();
+    let output = return_dev_dependencies(Some(path)).await.unwrap();
     assert!(output.contains("@babel/core"));
     assert!(!output.contains("gulp"));
 }
