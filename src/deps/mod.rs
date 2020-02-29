@@ -44,8 +44,8 @@ pub async fn fetch_installed_packages() -> Result<String> {
 pub async fn return_dependencies(path: Option<PathBuf>) -> Result<String> {
     let path = path.unwrap_or_else(default_custom_deps_file_path);
 
-    let custom = fetch_custom_dependencies(&path).await?;
-    let exclude = fetch_exclude_dependencies(&path).await?;
+    let custom = fetch_custom_dependencies(&path).await.unwrap_or_default();
+    let exclude = fetch_exclude_dependencies(&path).await.unwrap_or_default();
 
     let mut dependencies = packages::dependencies();
     dependencies.extend(custom.into_iter());
@@ -56,8 +56,10 @@ pub async fn return_dependencies(path: Option<PathBuf>) -> Result<String> {
 pub async fn return_dev_dependencies(path: Option<PathBuf>) -> Result<String> {
     let path = path.unwrap_or_else(default_custom_deps_file_path);
 
-    let custom = fetch_custom_dev_dependencies(&path).await?;
-    let exclude = fetch_exclude_dependencies(&path).await?;
+    let custom = fetch_custom_dev_dependencies(&path)
+        .await
+        .unwrap_or_default();
+    let exclude = fetch_exclude_dependencies(&path).await.unwrap_or_default();
 
     let mut dependencies = packages::dev_dependencies();
     dependencies.extend(custom.into_iter());

@@ -4,7 +4,7 @@ mod scripts;
 #[async_std::main]
 async fn main() {
     let mut args = std::env::args();
-    args.next();  // The first argument is the program itself.
+    args.next(); // The first argument is the program itself.
 
     match args.next().unwrap_or_default().as_str() {
         "scripts" => print!("{}", scripts::fetch_npm_scripts().await.unwrap_or_default()),
