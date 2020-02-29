@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: [ubuntu-latest, macos-latest]
+    env:
+      PLATFORM: ${{ runner.os }}
+      TAG: ${{ github.ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --release
+      - name: Pack
+        run: |
+          mkdir dist
+          cp ./target/release/yarn-autocompletions dist/
+          cp ./yarn-autocompletions.plugin.zsh dist/
+          cp ./install.sh dist/
+          cp ./README.md dist/
+          cp ./LICENSE dist/
+          cd dist
+          zip ../yarn-autocompletions_$TAG_$PLATFORM.zip ./*
+          tar -zcvf ../yarn-autocompletions_$TAG_$PLATFORM.tar.gz *
+          cd ..
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/yarn-autocompletions_$TAG_$PLATFORM.zip
+            dist/yarn-autocompletions_$TAG_$PLATFORM.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
