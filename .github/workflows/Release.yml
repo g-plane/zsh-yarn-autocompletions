@@ -32,7 +32,7 @@ jobs:
           tar -zcvf ../yarn-autocompletions_$TAG_$PLATFORM.tar.gz *
           cd ..
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
           files: |
             dist/yarn-autocompletions_$TAG_$PLATFORM.zip
