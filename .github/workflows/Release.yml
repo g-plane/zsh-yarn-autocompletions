@@ -28,14 +28,15 @@ jobs:
           cp ./README.md dist/
           cp ./LICENSE dist/
           cd dist
-          zip ../yarn-autocompletions_$TAG_$PLATFORM.zip ./*
-          tar -zcvf ../yarn-autocompletions_$TAG_$PLATFORM.tar.gz *
+          zip ../yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip ./*
+          tar -zcvf ../yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz *
+          ls -l
           cd ..
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            dist/yarn-autocompletions_$TAG_$PLATFORM.zip
-            dist/yarn-autocompletions_$TAG_$PLATFORM.tar.gz
+            dist/yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip
+            dist/yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
