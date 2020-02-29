@@ -1,34 +1,32 @@
 YARN_AUTO_COMP_PATH="$(dirname $0)/yarn-autocompletions"
 
-_fetch_yarn_autocompletions_result() {
+_yarn_autocompletions() {
     compls=$($YARN_AUTO_COMP_PATH $1)
     completions=(${=compls})
     compadd -- $completions
 }
 
-_yarn_autocompletions() {
+_yarn() {
     case $words[2] in
         add)
             if [[ $words[3] == "--dev" ]]
             then
-                _fetch_yarn_autocompletions_result "add-dev"
+                _yarn_autocompletions "add-dev"
             else
-                _fetch_yarn_autocompletions_result "add"
+                _yarn_autocompletions "add"
             fi
             ;;
         remove)
-            _fetch_yarn_autocompletions_result "remove"
+            _yarn_autocompletions "remove"
             ;;
         upgrade)
-            _fetch_yarn_autocompletions_result "remove"
+            _yarn_autocompletions "remove"
             ;;
         why)
-            _fetch_yarn_autocompletions_result "why"
+            _yarn_autocompletions "why"
             ;;
         *)
-            _fetch_yarn_autocompletions_result "scripts"
+            _yarn_autocompletions "scripts"
             ;;
     esac
 }
-
-compdef _yarn_autocompletions yarn
