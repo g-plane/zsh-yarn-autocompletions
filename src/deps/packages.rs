@@ -1,7 +1,17 @@
 use std::collections::HashSet;
 
+macro_rules! hash_set {
+    ($($e:expr,)*) => {{
+        let mut set = ::std::collections::HashSet::new();
+
+        $(set.insert($e);)*
+
+        set
+    }}
+}
+
 pub fn dependencies() -> HashSet<String> {
-    let names = [
+    hash_set![
         "@babel/runtime",
         "async",
         "axios",
@@ -20,12 +30,11 @@ pub fn dependencies() -> HashSet<String> {
         "styled-components",
         "vue",
         "vuex",
-    ];
-    names.iter().map(|s| s.to_string()).collect::<HashSet<_>>()
+    ]
 }
 
 pub fn dev_dependencies() -> HashSet<String> {
-    let names = [
+    hash_set![
         "@babel/cli",
         "@babel/core",
         "@babel/preset-env",
@@ -50,6 +59,5 @@ pub fn dev_dependencies() -> HashSet<String> {
         "vue-loader",
         "webpack",
         "xo",
-    ];
-    names.iter().map(|s| s.to_string()).collect::<HashSet<_>>()
+    ]
 }
