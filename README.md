@@ -30,7 +30,7 @@ page and download the latest binary files.
 
 Unzip the compressed file you downloaded.
 
-For 1.x users, please run:
+For 1.x (or above) users, please run:
 
 ```shell
 $ ./install.sh $ZSH_CUSTOM/plugins
@@ -63,7 +63,7 @@ Restart your terminal.
 Update your `.zshrc` file with the following line:
 
 ```zsh
-zplugin ice atload"zpcdreplay" atclone'./zplug.zsh'          
+zplugin ice atload"zpcdreplay" atclone'./zplug.zsh'
 zplugin light g-plane/zsh-yarn-autocompletions
 ```
 
