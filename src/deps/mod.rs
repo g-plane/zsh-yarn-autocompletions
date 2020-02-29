@@ -49,9 +49,7 @@ pub async fn return_dependencies(path: Option<PathBuf>) -> Result<String> {
 
     let mut dependencies = packages::dependencies();
     dependencies.extend(custom.into_iter());
-    let dependencies = dependencies
-        .difference(&exclude)
-        .fold(String::new(), |acc, cur| acc + cur + "\n");
+    let dependencies = dependencies.difference(&exclude).join("\n");
     Ok(dependencies)
 }
 
@@ -63,9 +61,7 @@ pub async fn return_dev_dependencies(path: Option<PathBuf>) -> Result<String> {
 
     let mut dependencies = packages::dev_dependencies();
     dependencies.extend(custom.into_iter());
-    let dependencies = dependencies
-        .difference(&exclude)
-        .fold(String::new(), |acc, cur| acc + cur + "\n");
+    let dependencies = dependencies.difference(&exclude).join("\n");
     Ok(dependencies)
 }
 
