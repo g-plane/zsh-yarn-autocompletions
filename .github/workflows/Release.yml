@@ -7,9 +7,12 @@ on:
 
 jobs:
   release:
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     env:
-      PLATFORM: ${{ runner.os }}
+      PLATFORM: ${{ matrix.os }}
       TAG: ${{ github.ref }}
     steps:
       - name: Checkout
