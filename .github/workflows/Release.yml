@@ -36,7 +36,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            dist/yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip
-            dist/yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz
+            yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip
+            yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
