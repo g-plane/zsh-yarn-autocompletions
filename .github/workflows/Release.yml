@@ -13,7 +13,6 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     env:
       PLATFORM: ${{ matrix.os }}
-      TAG: ${{ github.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,15 +27,15 @@ jobs:
           cp ./README.md dist/
           cp ./LICENSE dist/
           cd dist
-          zip ../yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip ./*
-          tar -zcvf ../yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz *
+          zip ../yarn-autocompletions_${{ matrix.os }}.zip ./*
+          tar -zcvf ../yarn-autocompletions_${{ matrix.os }}.tar.gz *
           ls -l
           cd ..
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.zip
-            yarn-autocompletions_${{ github.ref }}_${{ matrix.os }}.tar.gz
+            yarn-autocompletions_${{ matrix.os }}.zip
+            yarn-autocompletions_${{ matrix.os }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
