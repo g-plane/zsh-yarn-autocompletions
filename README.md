@@ -145,6 +145,32 @@ exclude:
 
 Keep in mind that any sections are optional.
 
+## Build from source
+
+Make sure that you've install [rustup](https://rustup.rs/) first and use rustup to install Rust.
+
+Next, follow the steps below:
+
+```
+git clone https://github.com/g-plane/zsh-yarn-autocompletions.git
+cd zsh-yarn-autocompletions
+cargo build --release
+mkdir -p $ZSH_CUSTOM/plugins/yarn-autocompletions
+cp ./yarn-autocompletions.plugin.zsh $ZSH_CUSTOM/plugins/yarn-autocompletions/
+cp ./target/release/yarn-autocompletions $ZSH_CUSTOM/plugins/yarn-autocompletions/
+```
+
+Then, edit your `.zshrc` like this:
+
+```diff
+plugins=(
+  # ... your other plugins
++ yarn-autocompletions
+)
+```
+
+Restart your terminal.
+
 ## Contribution
 
 Any contributions are welcome.
