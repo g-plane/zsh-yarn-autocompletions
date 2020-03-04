@@ -10,6 +10,7 @@
 - yarn run
 - yarn remove
 - yarn add
+- yarn why
 
 You can customize the autocompletion of `yarn add` command.
 It's configurable.
@@ -147,7 +148,7 @@ Keep in mind that any sections are optional.
 
 ## Build from source
 
-Make sure that you've install [rustup](https://rustup.rs/) first and use rustup to install Rust.
+Make sure that you've installed [rustup](https://rustup.rs/) first and use rustup to install Rust.
 
 Next, follow the steps below:
 
