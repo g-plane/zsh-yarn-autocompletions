@@ -11,15 +11,15 @@ else
     platform="linux"
 fi
 
-url="https://github.com/g-plane/zsh-yarn-autocompletions/releases/download/v$version/yarn-autocompletions_v${version}_$platform.tar.gz"
+url="https://github.com/g-plane/zsh-yarn-autocompletions/releases/download/v$version/yarn-autocompletions_$platform.zip"
 
 if [ $(hash wget 2>/dev/null) ]
 then
-    wget $url > tarball.tar.gz
+    wget $url > zipball.zip
 else
-    curl -fsSL $url > tarball.tar.gz
+    curl -fsSL $url > zipball.zip
 fi
 
-tar -zxf tarball.tar.gz yarn-autocompletions
+unzip zipball.zip yarn-autocompletions
 
-rm tarball.tar.gz
+rm zipball.zip
