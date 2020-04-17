@@ -58,13 +58,13 @@ Restart your terminal.
 
 ### With a plugin manager
 
-#### [zplugin](https://github.com/zdharma/zplugin)
+#### [zinit](https://github.com/zdharma/zinit)
 
 Update your `.zshrc` file with the following line:
 
 ```zsh
-zplugin ice atload"zpcdreplay" atclone'./zplug.zsh'
-zplugin light g-plane/zsh-yarn-autocompletions
+zinit ice atload"zpcdreplay" atclone'./zplug.zsh'
+zinit light g-plane/zsh-yarn-autocompletions
 ```
 
 #### [zplug](https://github.com/zplug/zplug)
