@@ -30,3 +30,5 @@ _yarn() {
             ;;
     esac
 }
+
+compdef _yarn yarn
