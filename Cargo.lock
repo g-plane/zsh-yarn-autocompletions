@@ -535,7 +535,7 @@ dependencies = [
 
 [[package]]
 name = "yarn-autocompletions"
-version = "2.0.1"
+version = "2.0.2"
 dependencies = [
  "async-std 1.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "dirs 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
