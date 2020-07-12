@@ -8,10 +8,10 @@ if [ $(uname) = "Darwin" ]
 then
     platform="macos"
 else
-    platform="linux"
+    platform="ubuntu"
 fi
 
-url="https://github.com/g-plane/zsh-yarn-autocompletions/releases/download/v$version/yarn-autocompletions_$platform.zip"
+url="https://github.com/g-plane/zsh-yarn-autocompletions/releases/download/v$version/yarn-autocompletions_$platform-latest.zip"
 
 if [ $(hash wget 2>/dev/null) ]
 then
