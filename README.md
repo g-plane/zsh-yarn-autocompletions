@@ -5,6 +5,10 @@
 [![license](https://img.shields.io/github/license/g-plane/zsh-yarn-autocompletions.svg?style=flat-square)](https://github.com/g-plane/zsh-yarn-autocompletions/blob/master/LICENSE)
 [![Github Releases](https://img.shields.io/github/downloads/g-plane/zsh-yarn-autocompletions/latest/total.svg?style=flat-square)](https://github.com/g-plane/zsh-yarn-autocompletions/releases)
 
+*You may also like:*
+
+- [icd](https://github.com/g-plane/icd) - Powerful `cd` command with fuzzy-search tool.
+
 ## Supported yarn commands
 
 - yarn run
