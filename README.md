@@ -60,6 +60,14 @@ plugins=(
 
 Restart your terminal.
 
+### Fig 
+
+[Fig](https://fig.io) adds apps, shortcuts, and autocomplete to your existing terminal.
+
+Install `zsh-yarn-autocompletions` in just one click.
+
+<a href="https://fig.io/plugins/other/zsh-yarn-autocompletions_g-plane" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
+
 ### With a plugin manager
 
 #### [zinit](https://github.com/zdharma/zinit)
