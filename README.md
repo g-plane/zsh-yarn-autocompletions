@@ -7,6 +7,7 @@
 
 *You may also like:*
 
+- [pnpm-shell-completion](https://github.com/g-plane/pnpm-shell-completion) - Same as this tool, but for pnpm.
 - [icd](https://github.com/g-plane/icd) - Powerful `cd` command with fuzzy-search tool.
 
 ## Supported yarn commands
