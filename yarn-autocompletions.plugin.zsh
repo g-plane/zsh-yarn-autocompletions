@@ -26,7 +26,11 @@ _yarn() {
             _yarn_autocompletions "why"
             ;;
         *)
-            _yarn_autocompletions "scripts"
+            if [[ $CURRENT -ge 3 ]]; then
+                _files
+            else
+                _yarn_autocompletions "scripts"
+            fi
             ;;
     esac
 }
