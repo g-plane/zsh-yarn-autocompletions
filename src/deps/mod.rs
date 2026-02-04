@@ -1,5 +1,6 @@
 use async_std::fs;
 use async_std::io::Result;
+use async_std::prelude::StreamExt;
 use itertools::Itertools;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
@@ -94,18 +95,36 @@ async fn fetch_exclude_dependencies(path: &PathBuf) -> Result<HashSet<String>> {
     Ok(custom.exclude.unwrap_or_default())
 }
 
-// TODO: use async here.
-pub fn list_node_modules() -> std::io::Result<String> {
+pub async fn list_node_modules() -> Result<String> {
     let cwd = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-    let directories = std::fs::read_dir(cwd.join("node_modules"));
+    let node_modules_path = cwd.join("node_modules");
+    let mut packages = Vec::new();
 
-    directories.map(|dirs| {
-        dirs.map(|dir| {
-            dir.map(|entry| entry.file_name().into_string().unwrap_or_default())
-                .unwrap_or_default()
-        })
-        .join("\n")
-    })
+    let mut entries = fs::read_dir(&node_modules_path).await?;
+    while let Some(res) = entries.next().await {
+        let entry = res?;
+        let file_name = entry.file_name().to_string_lossy().to_string();
+        let is_dir = entry.file_type().await?.is_dir();
+
+        if !is_dir || file_name.starts_with('.') {
+            continue
+        }
+
+        if file_name.starts_with('@') {
+            // Handle scoped packages (@something/package)
+            let mut scoped_dirs = fs::read_dir(entry.path()).await?;
+            while let Some(subdir_res) = scoped_dirs.next().await {
+                let subdir_entry = subdir_res?;
+                if subdir_entry.file_type().await?.is_dir() {
+                    packages.push(format!("{}/{}", file_name, subdir_entry.file_name().to_string_lossy()));
+                }
+            }
+        } else {
+            packages.push(file_name);
+        }
+    }
+
+    Ok(packages.join("\n"))
 }
 
 #[async_std::test]

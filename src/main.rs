@@ -22,7 +22,7 @@ async fn main() {
             "{}",
             deps::fetch_installed_packages().await.unwrap_or_default()
         ),
-        "why" => print!("{}", deps::list_node_modules().unwrap_or_default()),
+        "why" => print!("{}", deps::list_node_modules().await.unwrap_or_default()),
         _ => (),
     };
 }
